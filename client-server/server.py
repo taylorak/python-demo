@@ -5,11 +5,14 @@ import socket
 host = socket.gethostname()
 port = 8080;
 
-mySocket = socket.socket()
+mySocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 mySocket.bind((host,port))
 mySocket.listen()
 
+
 while True:
     client, addr = mySocket.accept()
-    client.send("Hello World".encode())
+    message = client.recv(1024).decode();
+    reply = "You asked: " + message
+    client.sendall(reply.encode())
     client.close()
